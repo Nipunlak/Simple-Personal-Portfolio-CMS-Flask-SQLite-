@@ -1,0 +1,44 @@
+DROP TABLE IF EXISTS project;
+DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS post;
+
+CREATE TABLE user(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT NOT NULL,
+    email TEXT UNIQUE NOT NULL,
+    password TEXT NOT NULL,
+    role TEXT NOT NULL,
+    image_path TEXT,
+    time_stamp  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+
+
+);
+
+
+CREATE TABLE project(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    project_name TEXT NOT NULL UNIQUE,
+    description TEXT NOT NULL,
+    author_id  INTEGER NOT NULL,
+    image_path TEXT NOT NULL,
+    time_stamp  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (author_id) REFERENCES user (id)
+
+
+
+);
+
+
+CREATE TABLE post(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    post_name TEXT NOT NULL UNIQUE,
+    post_text TEXT NOT NULL,
+    author_id  INTEGER NOT NULL,
+    image_path TEXT NOT NULL,
+    time_stamp  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (author_id) REFERENCES user (id)
+);
+
+
