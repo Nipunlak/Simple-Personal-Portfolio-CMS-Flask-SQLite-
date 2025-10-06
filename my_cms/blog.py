@@ -112,6 +112,7 @@ def post_update(id):
 
             fields = [f"{key} = ?" for key in updates.keys()]
             fields_str = ", ".join(fields)
+
             values = list(updates.values())
             values.append(post["id"])
 

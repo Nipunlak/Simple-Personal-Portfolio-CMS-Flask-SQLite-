@@ -33,4 +33,8 @@ def create_app(test_config=None):
 
     app.register_blueprint(blog.bp)
 
+    from . import projects
+
+    app.register_blueprint(projects.bp)
+
     return app
