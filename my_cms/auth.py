@@ -25,7 +25,7 @@ bp = Blueprint("auth", __name__, url_prefix="/auth")
 
 @bp.before_app_request
 def load_logged_in_user():
-    user_id = session.get('user_id')
+    user_id = session.get("user_id")
     db = get_db()
 
     if user_id is None:
@@ -34,13 +34,12 @@ def load_logged_in_user():
         g.user = db.execute("SELECT * FROM USER WHERE id = ?", (user_id,)).fetchone()
 
 
-
 def login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kargs):
         if g.user is None:
-            return redirect(url_for('auth.login'))
-        
+            return redirect(url_for("auth.login"))
+
         return view(**kargs)
 
 
@@ -97,6 +96,7 @@ def register():
 
             else:
                 return redirect(url_for("auth.login"))
+        flash(error)
 
     return render_template("auth/register.html")
 
@@ -136,7 +136,9 @@ def login():
     return render_template("auth/login.html")
 
 
-bp.route('/logout')
+bp.route("/logout")
+
+
 def logout():
     session.clear()
-    return redirect(url_for('index'))
+    return redirect(url_for("index"))
