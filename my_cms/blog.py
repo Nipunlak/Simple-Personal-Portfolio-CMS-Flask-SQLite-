@@ -111,10 +111,11 @@ def post_update(id):
         if error is None:
 
             fields = [f"{key} = ?" for key in updates.keys()]
+            fields_str = ", ".join(fields)
             values = list(updates.values())
             values.append(post["id"])
 
-            sql_query = f"UPDATE post SET {fields} WHERE id = ?"
+            sql_query = f"UPDATE post SET {fields_str} WHERE id = ?"
 
             try:
                 db.execute(sql_query, tuple(values))
