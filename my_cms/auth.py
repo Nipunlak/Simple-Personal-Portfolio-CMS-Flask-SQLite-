@@ -118,21 +118,23 @@ def login():
         if not password:
             error = "Password is Required"
 
-        user = db.execute("SELECT * FROM USER WHERE email = ?", (email,)).fetchone()
+        if email:
 
-        if user is None:
+            user = db.execute("SELECT * FROM user WHERE email = ?", (email,)).fetchone()
 
-            error = "Invalid credentials"
-        elif not check_password_hash(user["password"], password):
-
-            error = "Invalid credentials"
+            if user is None:
+                error = "Invalid credentials"
+            elif not check_password_hash(user["password"], password):
+                error = "Invalid credentials"
 
         if error is None:
             session.clear()
             session["user_id"] = user["id"]
-            return redirect(url_for("blog.index"))
-
-        flash(error)
+            return redirect(url_for("main.index"))
+        
+        if error:
+            flash(error)
+            return redirect(url_for('auth.login'))
 
     return render_template("auth/login.html")
 

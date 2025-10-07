@@ -1,13 +1,17 @@
 import os
 
+from dotenv import load_dotenv
+
 from flask import Flask
 
 
 def create_app(test_config=None):
 
+    load_dotenv()
+
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
-        SECRECT_KEY="hi", DATABASE=os.path.join(app.instance_path, "my_cms.sqlite")
+        SECRET_KEY=os.getenv('SECRET_KEY'), DATABASE=os.path.join(app.instance_path, os.getenv('DATABASE'))
     )
 
     if test_config is None:
