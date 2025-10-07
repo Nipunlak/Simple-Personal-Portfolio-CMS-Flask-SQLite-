@@ -60,11 +60,12 @@ def newproject():
             except Exception:
                 error = "Project creation failed"
             else:
-                return redirect(url_for("project.newproject"))
+                return redirect(url_for("project.index"))
         else:
             flash(error)
+            return redirect(url_for("project.newproject"))
 
-    return render_template("blog/newproject.html")
+    return render_template("project/newproject.html")
 
 
 @bp.route("/projects/<int:id>", methods=("GET", "POST"))
@@ -125,7 +126,8 @@ def project_update(id):
                 db.rollback()
                 error = err
 
-            return redirect(url_for("project.get_project", id=id))
+            else:
+                return redirect(url_for("project.get_project", id=id))
 
         flash(error)
         return redirect(url_for("project.project_update", id=id))
@@ -134,7 +136,7 @@ def project_update(id):
         db = get_db()
         project = db.execute("SELECT * FROM project WHERE id = ?", (id,)).fetchone()
 
-        return render_template("project/project.html", project=project)
+        return render_template("project/projectupdate.html", project=project)
 
 
 @bp.route("/project/<int:id>/delete", methods=("GET", "POST"))
@@ -157,4 +159,4 @@ def project_delete(id):
         except Exception as error:
             db.rollback()
             flash(error)
-            return redirect(url_for("project", id=id))
+            return redirect(url_for("project.getproject", id=id))

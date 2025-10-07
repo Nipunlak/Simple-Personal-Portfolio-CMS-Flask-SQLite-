@@ -60,21 +60,21 @@ def newpost():
             except Exception:
                 error = "Post creation failed"
             else:
-                return redirect(url_for("blog.newpost"))
-        else:
-            flash(error)
+                return redirect(url_for("blog.index"))
+
+        flash(error)
+        return redirect(url_for("blog.newpost"))
 
     return render_template("blog/newpost.html")
 
 
-@bp.route("/posts/<int:id>", methods=("GET", "POST"))
+@bp.route("/posts/<int:id>")
 def get_post(id):
-    if request.method == "GET":
-        db = get_db()
-        post = db.execute("SELECT * FROM post WHERE id = ?", (id,)).fetchone()
+    db = get_db()
+    post = db.execute("SELECT * FROM post WHERE id = ?", (id,)).fetchone()
 
-        if post is None:
-            abort(404, "Not Found")
+    if post is None:
+        abort(404, "Not Found")
 
     return render_template("blog/post.html", post=post)
 
@@ -121,11 +121,10 @@ def post_update(id):
             try:
                 db.execute(sql_query, tuple(values))
                 db.commit()
+                return redirect(url_for("blog.get_post", id=id))
             except Exception as err:
                 db.rollback()
                 error = err
-
-            return redirect(url_for("blog.get_post", id=id))
 
         flash(error)
         return redirect(url_for("blog.post_update", id=id))
@@ -134,7 +133,7 @@ def post_update(id):
         db = get_db()
         post = db.execute("SELECT * FROM post WHERE id = ?", (id,)).fetchone()
 
-        return render_template("blog/post.html", post=post)
+        return render_template("blog/postupdate.html", post=post)
 
 
 @bp.route("/post/<int:id>/delete", methods=("GET", "POST"))
@@ -151,10 +150,10 @@ def post_delete(id):
             abort(401, "Unauthorized")
 
         try:
-            db.execute("DELETE FROM post WHERE id = ?", (post["id"]))
+            db.execute("DELETE FROM post WHERE id = ?", (post["id"],))
             db.commit()
             return redirect(url_for("blog.index"))
         except Exception as error:
             db.rollback()
             flash(error)
-            return redirect(url_for("blog.post", id=id))
+            return redirect(url_for("blog.get_post", id=id))

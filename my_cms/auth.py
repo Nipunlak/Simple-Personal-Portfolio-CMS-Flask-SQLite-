@@ -41,6 +41,7 @@ def login_required(view):
             return redirect(url_for("auth.login"))
 
         return view(**kargs)
+    return wrapped_view
 
 
 @bp.route("/register", methods=("GET", "POST"))
@@ -101,7 +102,7 @@ def register():
     return render_template("auth/register.html")
 
 
-@bp.route("/login", methods=("GET,POST"))
+@bp.route("/login", methods=("GET", "POST"))
 def login():
     if request.method == "POST":
         email = request.form["email"]
@@ -129,7 +130,7 @@ def login():
         if error is None:
             session.clear()
             session["user_id"] = user["id"]
-            return redirect(url_for("index"))
+            return redirect(url_for("blog.index"))
 
         flash(error)
 
@@ -137,8 +138,6 @@ def login():
 
 
 bp.route("/logout")
-
-
 def logout():
     session.clear()
-    return redirect(url_for("index"))
+    return redirect(url_for("auth.login"))
