@@ -139,7 +139,7 @@ def login():
     return render_template("auth/login.html")
 
 
-bp.route("/logout")
+@bp.route("/logout")
 def logout():
     session.clear()
     return redirect(url_for("auth.login"))
