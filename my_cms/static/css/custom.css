@@ -1,0 +1,21 @@
+.sidebar {
+    background: black;
+    height: 100vh;
+   
+}
+
+
+.sidebar a {
+    display: block;
+    text-decoration: none;
+    padding: 10px 10px;
+    color: white;
+}
+
+.flash-msg{
+  text-align: center;
+  font-size: 15px;
+  padding: 10px;
+  color: red;
+  background-color: wheat;
+}

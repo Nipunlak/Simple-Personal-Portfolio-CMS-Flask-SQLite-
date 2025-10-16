@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %} update Project {% endblock %}
+
+{% block content %}
+
+   <div class="container-fluid">
+      <div class="row">
+            <div class="col-md-3">
+            </div>
+            <div class="col-md-6">
+                <form method="post">
+                    <div class="mb-3">
+                            <label for="post_name" class="form-label">Project Name</label>
+                            <input type="text" class="form-control" id="post_name" name="post_name" placeholder="{{project['project_name']}}">
+                            
+                    </div>
+                    <div class="mb-3">
+                        <label for="post_text">Project description</label>
+                        <textarea class="form-control" id="post_text" rows="5" name="post_text" placeholder="{{project['description']}}"></textarea>
+                    </div>
+                    <div class="mb-3">
+                            <label for="image_path" class="form-label">Image Url</label>
+                            <input type="text" class="form-control" id="image_path" name="image_path" placeholder="{{project['image_path']}}">
+                            
+                    </div>
+                        <button type="submit" class="btn btn-primary">Update Project</button>
+                </form>
+            </div>
+
+            <div class="col-md-3"></div>
+        </div>
+   </div>
+   
+    
+ 
+
+{% endblock %}

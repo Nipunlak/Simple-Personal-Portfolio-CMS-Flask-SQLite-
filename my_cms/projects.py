@@ -21,6 +21,9 @@ bp = Blueprint("project", __name__, url_prefix="/project")
 def index():
     db = get_db()
     projects = db.execute("SELECT * FROM project").fetchall()
+    
+   
+    
 
     return render_template("project/index.html", projects=projects)
 
@@ -29,11 +32,11 @@ def index():
 @login_required
 def newproject():
     if request.method == "POST":
-        project_name = request.form["project_name"]
-        description = request.form["description"]
-        image_path = request.form["image_path"]
+        project_name = request.form.get("project_name")
+        description = request.form.get("description")
+        image_path = request.form.get("image_path")
 
-        author_id = g.get("user_id", None)
+        author_id = g.get("user", None)['id']
         db = get_db()
         error = None
 
@@ -102,7 +105,7 @@ def project_update(id):
         if project is None:
             abort(404, "Not Found")
 
-        if g.get("user_id") != project["author_id"]:
+        if g.get("user")['id'] != project["author_id"]:
 
             abort(401, "Unauthorized")
 
@@ -149,7 +152,7 @@ def project_delete(id):
         if project is None:
             abort(404, "Not Found")
 
-        if project["author_id"] != g.get("user_id"):
+        if project["author_id"] != g.get("user")['id']:
             abort(401, "Unauthorized")
 
         try:

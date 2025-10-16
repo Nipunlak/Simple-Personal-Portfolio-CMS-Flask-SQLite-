@@ -29,11 +29,11 @@ def index():
 @login_required
 def newpost():
     if request.method == "POST":
-        post_name = request.form["post_name"]
-        post_text = request.form["post_text"]
-        image_path = request.form["image_path"]
+        post_name = request.form.get("post_name")
+        post_text = request.form.get("post_text")
+        image_path = request.form.get("image_path")
 
-        author_id = g.get("user_id", None)
+        author_id = g.get("user", None)['id']
         db = get_db()
         error = None
 
@@ -101,7 +101,7 @@ def post_update(id):
         if post is None:
             abort(404, "Not Found")
 
-        if g.get("user_id") != post["author_id"]:
+        if g.get("user")['id'] != post["author_id"]:
 
             abort(401, "Unauthorized")
 
@@ -146,7 +146,7 @@ def post_delete(id):
         if post is None:
             abort(404, "Not Found")
 
-        if post["author_id"] != g.get("user_id"):
+        if post["author_id"] != g.get("user")['id']:
             abort(401, "Unauthorized")
 
         try:

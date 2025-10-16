@@ -6,7 +6,7 @@ from .db import get_db
 bp = Blueprint('account',__name__)
 
 
-@bp.route('/my', methods = ('GET', 'POST'))
+@bp.route('/my_dashboard', methods = ('GET', 'POST'))
 @login_required
 def dashboard():
     if request.method == "POST":

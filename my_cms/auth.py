@@ -47,11 +47,11 @@ def login_required(view):
 @bp.route("/register", methods=("GET", "POST"))
 def register():
     if request.method == "POST":
-        email = request.form["email"]
-        username = request.form["username"]
-        password = request.form["password"]
-        role = request.form["role"]
-        image_path = request.form["image_path"]
+        email = request.form.get("email")
+        username = request.form.get("username")
+        password = request.form.get("password")
+        role = request.form.get("role")
+        image_path = request.form.get("image_path")
 
         db = get_db()
         error = None
@@ -105,8 +105,8 @@ def register():
 @bp.route("/login", methods=("GET", "POST"))
 def login():
     if request.method == "POST":
-        email = request.form["email"]
-        password = request.form["password"]
+        email = request.form.get("email")
+        password = request.form.get("password")
 
         db = get_db()
 

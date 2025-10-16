@@ -1,10 +1,28 @@
 {% extends 'base.html' %}
 
-{% block title %} Blog posts {% endblock %}
+{% block title %} Projects {% endblock %}
 
 
 {% block content %}
+    
+    <div class="">
 
-    <h1>All Projects</h1>
+        {% for project in projects %}
+
+        <div class="card" style="width: 18rem;">
+                <img src="{{project['image_path']}}" class="card-img-top" alt="project image">
+                <div class="card-body">
+                    <h5 class="card-title">{{project['project_name']}}</h5>
+                    <p class="card-text">{{'description'}}</p>
+                    <a href="{{url_for('project.get_project',id=project['id'])}}" class="btn btn-primary">Read More</a>
+                    {% if g.user['id'] == project['author_id'] %}
+                            <a href="{{url_for('project.project_update',id=project['id'])}}" class="btn btn-primary">Update</a>
+                            <a href="{{url_for('project.project_delete',id=project['id'])}}" class="btn btn-danger">Delete</a>
+                    {% endif %}
+                </div>
+            </div>
+
+        {% endfor %}
+    </div>
    
 {% endblock %}
