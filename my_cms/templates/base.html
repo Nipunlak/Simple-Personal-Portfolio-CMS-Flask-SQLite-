@@ -4,16 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %} {% endblock %}</title>
+   
+
+
     <!-- bootstrap -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css')}}">
-
-    <!-- custom css -->
+    
+      <!-- custom css -->
     <link rel="stylesheet" href="{{url_for('static', filename='css/custom.css')}}">
+   
     
 </head>
-<body>
+<body class="">
       <!-- navbar -->
-      <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <nav class="navbar navbar-expand-lg   navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="{{url_for('main.index')}}">MY CMS</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,7 +26,7 @@
             <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
             <ul class="navbar-nav  mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{{url_for('main.index')}}">Home</a>
+                    <a class="nav-link" href="{{url_for('main.index')}}">Home</a>
                 </li>
                 {% if g.user %}
                 <li class="nav-item">
@@ -62,8 +66,55 @@
     <!-- ends -->
     
     <!-- main content block -->
-    {% block content %} {% endblock %}
+     <div class="con min-vh-100">
+        {% block content %} {% endblock %}
+
+     </div>
+    
     <!-- ends -->
+
+        <!-- footer -->
+     <footer class="bg-dark text-white text-center text-lg-start mt-5">
+        <div class="container py-4">
+
+            <!-- Row -->
+            <div class="row">
+
+            <!-- Column 1: About -->
+            <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+                <h5 class="text-uppercase">MyBlog</h5>
+                <p>
+                A simple blog built with Bootstrap. Sharing tutorials, tips, and web dev resources.
+                </p>
+            </div>
+
+            <!-- Column 2: Links -->
+            <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                <h5 class="text-uppercase">Links</h5>
+                <ul class="list-unstyled mb-0">
+                <li><a href="#" class="text-white text-decoration-none">Home</a></li>
+                <li><a href="#" class="text-white text-decoration-none">About</a></li>
+                <li><a href="#" class="text-white text-decoration-none">Blog</a></li>
+                <li><a href="#" class="text-white text-decoration-none">Contact</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 3: Social -->
+            <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                <h5 class="text-uppercase">Follow Us</h5>
+                <ul class="list-unstyled mb-0">
+                <li><a href="#" class="text-white text-decoration-none">Twitter</a></li>
+                <li><a href="#" class="text-white text-decoration-none">Facebook</a></li>
+                <li><a href="#" class="text-white text-decoration-none">GitHub</a></li>
+                </ul>
+            </div>
+
+            </div>
+        </div>
+    </footer>
+
+        
+    <!-- footer ends  -->
     
     <script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
 </body>

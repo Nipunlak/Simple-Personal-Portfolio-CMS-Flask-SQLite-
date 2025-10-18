@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %} {{project['project_name']}} {% endblock %}
+
+
+
+{% block content %}
+
+    
+     <!-- Blog Post Container -->
+    <div class="container my-5">
+            <div class="row justify-content-center">
+            <div class="col-md-10 col-lg-8">
+
+                <!-- Title -->
+                <h1 class="mb-3">{{project['project_name']}}</h1>
+
+                <!-- Meta -->
+                <p class="text-muted mb-4">
+                By <strong>{{name['username']}}</strong> &middot; October 17, 2025
+                </p>
+
+                <!-- Image -->
+                <img src="{{project['image_path']}}" alt="Post Image" class="img-fluid mb-4 rounded">
+
+                <!-- Content -->
+                 <div class="">
+                     {{project['description']}}
+                 </div>
+            </div>
+            </div>
+    </div>
+
+
+{% endblock %}

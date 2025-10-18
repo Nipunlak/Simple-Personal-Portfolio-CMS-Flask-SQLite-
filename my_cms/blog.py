@@ -72,11 +72,13 @@ def newpost():
 def get_post(id):
     db = get_db()
     post = db.execute("SELECT * FROM post WHERE id = ?", (id,)).fetchone()
+    author_name = db.execute('SELECT username FROM user WHERE id = ?',(post['author_id'],)).fetchone()
+    
 
     if post is None:
         abort(404, "Not Found")
 
-    return render_template("blog/post.html", post=post)
+    return render_template("blog/post.html", post=post, name = author_name)
 
 
 @bp.route("/posts/<int:id>/update", methods=("GET", "POST"))

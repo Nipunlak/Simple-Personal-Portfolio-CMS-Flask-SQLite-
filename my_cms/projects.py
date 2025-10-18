@@ -76,11 +76,11 @@ def get_project(id):
     if request.method == "GET":
         db = get_db()
         project = db.execute("SELECT * FROM project WHERE id = ?", (id,)).fetchone()
-
+        author_name = db.execute('SELECT username FROM user WHERE id = ?',(project['author_id'],)).fetchone()
         if project is None:
             abort(404, "Not Found")
 
-    return render_template("project/project.html", project=project)
+    return render_template("project/project.html", project=project, name = author_name)
 
 
 @bp.route("/projects/<int:id>/update", methods=("GET", "POST"))
