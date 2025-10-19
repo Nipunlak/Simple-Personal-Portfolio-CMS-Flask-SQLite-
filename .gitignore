@@ -2,3 +2,4 @@
 instance/
 my_cms/__pycache__
 .env
+test/
