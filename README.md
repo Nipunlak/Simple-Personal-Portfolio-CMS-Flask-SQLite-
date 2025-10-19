@@ -50,14 +50,4 @@ A simple content management system (CMS) built with **Flask**, **SQLite3**, and 
 
 ---
 
-## Getting Started
 
-```bash
-git clone https://github.com/yourusername/portfolio-cms.git
-cd portfolio-cms
-
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-pip install -r requirements.txt
-flask --app run run
