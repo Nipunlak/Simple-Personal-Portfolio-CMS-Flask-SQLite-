@@ -1,21 +1,5 @@
 
 
-
-.sidebar {
-    background: black;
-    height: 100vh;
-   
-}
-
-
-.sidebar a {
-    display: block;
-    text-decoration: none;
-    padding: 10px 10px;
-    color: white;
-    
-}
-
 .flash-msg{
   text-align: center;
   font-size: 15px;
@@ -24,8 +8,3 @@
   background-color: wheat;
 }
 
-html, body {
-  height: 100vh;
-  margin: 0;
-  padding: 0;
-}

@@ -41,10 +41,25 @@ def login_required(view):
             return redirect(url_for("auth.login"))
 
         return view(**kargs)
+
     return wrapped_view
 
 
+def check_role(role):
+    def decorator(view):
+        @functools.wraps(view)
+        def wrapped_view(**kargs):
+            if "role" not in session or session["role"] != role:
+                return "Access denied", 403
+            return view(**kargs)
+
+        return wrapped_view
+
+    return decorator
+
+
 @bp.route("/register", methods=("GET", "POST"))
+@check_role("admin")
 def register():
     if request.method == "POST":
         email = request.form.get("email")
@@ -130,11 +145,12 @@ def login():
         if error is None:
             session.clear()
             session["user_id"] = user["id"]
+            session["role"] = user["role"]
             return redirect(url_for("main.index"))
-        
+
         if error:
             flash(error)
-            return redirect(url_for('auth.login'))
+            return redirect(url_for("auth.login"))
 
     return render_template("auth/login.html")
 

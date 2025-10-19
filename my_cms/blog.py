@@ -33,7 +33,7 @@ def newpost():
         post_text = request.form.get("post_text")
         image_path = request.form.get("image_path")
 
-        author_id = g.get("user", None)['id']
+        author_id = g.get("user", None)["id"]
         db = get_db()
         error = None
 
@@ -72,13 +72,14 @@ def newpost():
 def get_post(id):
     db = get_db()
     post = db.execute("SELECT * FROM post WHERE id = ?", (id,)).fetchone()
-    author_name = db.execute('SELECT username FROM user WHERE id = ?',(post['author_id'],)).fetchone()
-    
+    author_name = db.execute(
+        "SELECT username FROM user WHERE id = ?", (post["author_id"],)
+    ).fetchone()
 
     if post is None:
         abort(404, "Not Found")
 
-    return render_template("blog/post.html", post=post, name = author_name)
+    return render_template("blog/post.html", post=post, name=author_name)
 
 
 @bp.route("/posts/<int:id>/update", methods=("GET", "POST"))
@@ -103,7 +104,7 @@ def post_update(id):
         if post is None:
             abort(404, "Not Found")
 
-        if g.get("user")['id'] != post["author_id"]:
+        if g.get("user")["id"] != post["author_id"]:
 
             abort(401, "Unauthorized")
 
@@ -138,7 +139,7 @@ def post_update(id):
         return render_template("blog/postupdate.html", post=post)
 
 
-@bp.route("/post/<int:id>/delete", methods=("GET", "POST"))
+@bp.route("/post/<int:id>/delete", methods=("POST",))
 @login_required
 def post_delete(id):
     if request.method == "POST":
@@ -148,7 +149,7 @@ def post_delete(id):
         if post is None:
             abort(404, "Not Found")
 
-        if post["author_id"] != g.get("user")['id']:
+        if post["author_id"] != g.get("user")["id"]:
             abort(401, "Unauthorized")
 
         try:
@@ -157,5 +158,5 @@ def post_delete(id):
             return redirect(url_for("blog.index"))
         except Exception as error:
             db.rollback()
-            flash(error)
+            flash("Deletion Failed")
             return redirect(url_for("blog.get_post", id=id))

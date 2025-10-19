@@ -21,9 +21,6 @@ bp = Blueprint("project", __name__, url_prefix="/project")
 def index():
     db = get_db()
     projects = db.execute("SELECT * FROM project").fetchall()
-    
-   
-    
 
     return render_template("project/index.html", projects=projects)
 
@@ -36,7 +33,7 @@ def newproject():
         description = request.form.get("description")
         image_path = request.form.get("image_path")
 
-        author_id = g.get("user", None)['id']
+        author_id = g.get("user", None)["id"]
         db = get_db()
         error = None
 
@@ -76,11 +73,13 @@ def get_project(id):
     if request.method == "GET":
         db = get_db()
         project = db.execute("SELECT * FROM project WHERE id = ?", (id,)).fetchone()
-        author_name = db.execute('SELECT username FROM user WHERE id = ?',(project['author_id'],)).fetchone()
+        author_name = db.execute(
+            "SELECT username FROM user WHERE id = ?", (project["author_id"],)
+        ).fetchone()
         if project is None:
             abort(404, "Not Found")
 
-    return render_template("project/project.html", project=project, name = author_name)
+    return render_template("project/project.html", project=project, name=author_name)
 
 
 @bp.route("/projects/<int:id>/update", methods=("GET", "POST"))
@@ -105,7 +104,7 @@ def project_update(id):
         if project is None:
             abort(404, "Not Found")
 
-        if g.get("user")['id'] != project["author_id"]:
+        if g.get("user")["id"] != project["author_id"]:
 
             abort(401, "Unauthorized")
 
@@ -142,7 +141,7 @@ def project_update(id):
         return render_template("project/projectupdate.html", project=project)
 
 
-@bp.route("/project/<int:id>/delete", methods=("GET", "POST"))
+@bp.route("/project/<int:id>/delete", methods=("POST",))
 @login_required
 def project_delete(id):
     if request.method == "POST":
@@ -152,14 +151,14 @@ def project_delete(id):
         if project is None:
             abort(404, "Not Found")
 
-        if project["author_id"] != g.get("user")['id']:
+        if project["author_id"] != g.get("user")["id"]:
             abort(401, "Unauthorized")
 
         try:
-            db.execute("DELETE FROM project WHERE id = ?", (project["id"]))
+            db.execute("DELETE FROM project WHERE id = ?", (project["id"],))
             db.commit()
             return redirect(url_for("project.index"))
         except Exception as error:
             db.rollback()
-            flash(error)
+            flash("Deletion Failed")
             return redirect(url_for("project.getproject", id=id))
